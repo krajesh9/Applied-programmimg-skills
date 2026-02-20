@@ -1,24 +1,19 @@
 class Solution {
+    List<String> res = new ArrayList<>();
     public List<String> binaryTreePaths(TreeNode root) {
-        List<String> result = new ArrayList<>();
-        if (root == null) return result;
-
-        TreePaths(root, new StringBuilder(), result);
-        return result;
+        if(root == null) return res;
+        getAllPaths(root, "");
+        return res;
     }
-    void TreePaths(TreeNode root, StringBuilder path, List<String> result) {
-        int len = path.length();   // save state for backtracking
+    void getAllPaths(TreeNode node, String path){
+        if(node == null) return;
 
-        path.append(root.val);
-
-        if (root.left == null && root.right == null) {
-            result.add(path.toString());
-        } else {
-            path.append("->");
-            if (root.left != null) TreePaths(root.left, path, result);
-            if (root.right != null) TreePaths(root.right, path, result);
+        if(node.left == null && node.right == null){
+            res.add(path + node.val);
+            return;
         }
-        path.setLength(len); // backtrack (removes val and "->")
+
+        getAllPaths(node.left, path + node.val + "->");
+        getAllPaths(node.right, path + node.val + "->");
     }
 }
-
