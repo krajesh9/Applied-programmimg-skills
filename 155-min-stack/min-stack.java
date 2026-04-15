@@ -1,33 +1,28 @@
-import java.util.*;
-
 class MinStack {
-    private Deque<Integer> stack;
-    private Deque<Integer> minStack;
-
-    public MinStack() {
-        stack = new ArrayDeque<>();
-        minStack = new ArrayDeque<>();
+    private class Node {
+        int val, min;
+        Node(int val, int min) {
+            this.val = val;
+            this.min = min;
+        }
     }
 
+    private Stack<Node> st = new Stack<>();
+
     public void push(int val) {
-        stack.push(val);
-        if (minStack.isEmpty() || val <= minStack.peek()) {
-            minStack.push(val);
-        }
+        int min = st.isEmpty() ? val : Math.min(val, st.peek().min);
+        st.push(new Node(val, min));
     }
 
     public void pop() {
-        int val = stack.pop();
-        if (val == minStack.peek()) {
-            minStack.pop();
-        }
+        st.pop();
     }
 
     public int top() {
-        return stack.peek();
+        return st.peek().val;
     }
 
     public int getMin() {
-        return minStack.peek();
+        return st.peek().min;
     }
 }
